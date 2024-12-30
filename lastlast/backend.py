@@ -4,9 +4,10 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask import Flask, request, jsonify
 import os
+import re
 
 # Initialize Flask app
-app = Flask(__name__)  # Corrected here
+app = Flask(__name__)
 
 # Database setup (SQLite) - stores email addresses
 def create_db():
@@ -28,16 +29,30 @@ def store_email(email):
         c = conn.cursor()
         c.execute('INSERT INTO users (email) VALUES (?)', (email,))
         conn.commit()
-        conn.close()
         return True
     except sqlite3.IntegrityError:
         # Email already exists
         return False
+    except Exception as e:
+        print(f"Database error: {e}")
+        return False
+    finally:
+        conn.close()
+
+# Validate email format
+def is_valid_email(email):
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(email_regex, email) is not None
 
 # Send email to customer using Gmail SMTP
 def send_email_to_customer(customer_email):
     sender_email = os.getenv('GMAIL_USER')  # Use environment variable for Gmail user
     password = os.getenv('GMAIL_PASSWORD')  # Use environment variable for Gmail password
+
+    if not sender_email or not password:
+        print("Error: Gmail credentials are not set in environment variables.")
+        return False
+
     receiver_email = customer_email
     subject = "Thank You for Your Subscription!"
     body = "Hello, thank you for subscribing. We are excited to have you!"
@@ -60,7 +75,7 @@ def send_email_to_customer(customer_email):
         print(f"Error sending email: {e}")
         return False
 
-# API route to handle storing email, sending email and responding to the user
+# API route to handle storing email, sending email, and responding to the user
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
     email = request.json.get('email')
@@ -68,6 +83,10 @@ def subscribe():
     if not email:
         return jsonify({"error": "Email is required"}), 400
     
+    # Validate email format
+    if not is_valid_email(email):
+        return jsonify({"error": "Invalid email format"}), 400
+
     # Step 1: Store email in database
     if store_email(email):
         # Step 2: Send email to customer
@@ -79,6 +98,6 @@ def subscribe():
     else:
         return jsonify({"error": "This email is already subscribed."}), 400
 
-if __name__ == '__main__':  # Corrected here
+if __name__ == '__main__':
     create_db()  # Create database table if it doesn't exist
     app.run(debug=True)
