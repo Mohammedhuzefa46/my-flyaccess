@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLYVISA Consultancy</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #333;
+    text-align: center;
+}
+
+.header {
+    background-color: #192841;
+    color: white;
+    padding: 20px;
+}
+
+.form-section {
+    padding: 50px;
+}
+
+form {
+    margin: 20px auto;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #fa6c34;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #ffd700;
+}
+
+#responseMessage {
+    margin-top: 20px;
+    color: green;
+}
+        #email-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 50%;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #email-form h2 {
+            font-size: 24px;
+            color: #333;
+        }
+        #email-form p {
+            font-size: 16px;
+            color: #666;
+        }
+        #email-form input[type="email"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #email-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #email-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to FLYVISA Consultancy</h1>
+        <p>Your trusted partner for visa and immigration services.</p>
+    </header>
+
+    <section class="form-section">
+        <h2>Get in Touch</h2>
+        <form action="dashboard.html" method="GET" id="contact-form">
+            <label for="contact-email">Enter your email:</label>
+            <input type="email" id="contact-email" name="email" required>
+            <button type="submit">Submit</button>
+        </form>
+        <p id="responseMessage"></p>
+    </section>
+
+    <section id="email-form" style="text-align: center; margin: 20px 0;">
+        <h2>Stay Updated!</h2>
+        <p>Enter your email to receive updates and information about our services.</p>
+        <form action="dashboard.html" method="GET" id="subscription-form">
+            <label for="subscription-email" style="font-weight: bold;">Email:</label>
+            <input type="email" name="email" id="subscription-email" placeholder="Enter your email" required style="padding: 5px; margin: 10px 0;">
+            <button type="submit" style="padding: 5px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Subscribe</button>
+        </form>
+    </section>
+</body>
+</html>
